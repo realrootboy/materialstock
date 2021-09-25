@@ -1,0 +1,19 @@
+{
+  "name": "materialstock",
+  "version": "1.0.0",
+  "description": "Em construção",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/realrootboy/materialstock.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/realrootboy/materialstock/issues"
+  },
+  "homepage": "https://github.com/realrootboy/materialstock#readme"
+}
