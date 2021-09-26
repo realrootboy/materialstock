@@ -1,0 +1,16 @@
+POST http://localhost:8080/leaseobject HTTP/1.1
+content-type: application/json
+
+{
+    "name": "tendaa",
+    "materials": [
+        {
+            "id": 1,
+            "name": "sample2"
+        },
+        {
+            "id": 2,
+            "name": "sample2"
+        }
+    ]
+}
