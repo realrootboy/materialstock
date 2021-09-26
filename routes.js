@@ -1,9 +1,9 @@
 const router = require("express").Router();
+const MaterialController = require("./controllers/MaterialController");
 
 module.exports = () => {
-    router.get('/', (req, res) => { return res.status(200).json({})})
 
-
+    router.use(MaterialController);
     
     return router;
 };
