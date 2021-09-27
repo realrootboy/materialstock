@@ -35,7 +35,6 @@ class MaterialController {
         if (!material) res.status(401).json({ id, message: "ID not found" });
         const destroy = await material.destroy();
         return res.status(200).json(destroy);
-
     }
 }
 
