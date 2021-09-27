@@ -34,7 +34,7 @@ class EmployeeController {
             where: { id }
         });
         if (!employee) res.status(401).json({ id, message: "ID not found" });
-        const destroy = await MaterialController.destroy();
+        const destroy = await employee.destroy();
         return res.status(200).json(destroy);
     }
 }
