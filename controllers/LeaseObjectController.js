@@ -10,24 +10,24 @@ class LeaseObjectController {
     }
 
     static post = async (req, res) => {
-        const { name, materials } = req.body;
-        let leaseObject = await LeaseObject.create({name});
-        if(materials && materials.length)
-            await leaseObject.setMaterials(materials.map(el=>el.id));
-        return res.status(200).json({leaseObject, materials});
+        const { name, description, materials } = req.body;
+        let leaseObject = await LeaseObject.create({ name, description });
+        if (materials && materials.length)
+            await leaseObject.setMaterials(materials.map(el => el.id));
+        return res.status(200).json({ leaseObject, materials });
     }
 
     static put = async (req, res) => {
         const { id } = req.params;
-        const { name, materials } = req.body;
+        const { name, description, materials } = req.body;
         const leaseObject = await LeaseObject.findOne({
             where: { id }
         });
         if (!leaseObject) res.status(401).json({ id, message: "ID not found" });
-        const update = await leaseObject.update({name});
-        if(materials && materials.length)
-            await leaseObject.setMaterials(materials.map(el=>el.id));
-        return res.status(200).json({Updated:{LeaseObject: update, materials}});
+        const update = await leaseObject.update({ name, description });
+        if (materials && materials.length)
+            await leaseObject.setMaterials(materials.map(el => el.id));
+        return res.status(200).json({ Updated: { LeaseObject: update, materials } });
     }
 
     static delete = async (req, res) => {

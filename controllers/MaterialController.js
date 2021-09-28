@@ -11,19 +11,19 @@ class MaterialController {
     }
 
     static post = async (req, res) => {
-        const { name } = req.body;
-        const material = await Material.create({ name });
+        const { name, description } = req.body;
+        const material = await Material.create({ name, description });
         return res.status(200).json(material);
     }
 
     static put = async (req, res) => {
         const { id } = req.params;
-        const { name } = req.body;
+        const { name, description } = req.body;
         const material = await Material.findOne({
             where: { id }
         });
         if (!material) res.status(401).json({ id, message: "ID not found" });
-        const update = await material.update({ name });
+        const update = await material.update({ name, description });
         return res.status(200).json(update);
     }
 

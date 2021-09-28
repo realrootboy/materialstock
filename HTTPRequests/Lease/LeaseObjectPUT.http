@@ -1,0 +1,12 @@
+PUT http://localhost:8080/leaseobject/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample2er",
+    "materials": [
+        {
+            "id": 2,
+            "name": "sample2"
+        }
+    ]
+}
