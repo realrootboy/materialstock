@@ -5,6 +5,7 @@ import Drawer from '../../components/drawer';
 import MaterialForm from '../../components/materialForm'
 import List from '../../components/grid'
 import Container from '@material-ui/core/Container'
+import Box from '@material-ui/core/Box'
 
 
 const MaterialRegister = () => {
@@ -14,9 +15,11 @@ const MaterialRegister = () => {
   return (
     <Container>
       <Topbar/>
-      <Drawer/>
-      <MaterialForm/>
-      <List/>  
+        <MaterialForm/>
+      <Box display="flex">
+        <Drawer/>
+        <List/>  
+      </Box>
     </Container>
   );
 }
