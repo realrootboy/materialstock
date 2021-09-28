@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit'
 
 function Row(props) {
   const { row } = props;
@@ -33,14 +35,24 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
+        <TableCell>
+          <IconButton edge ="end" aria-label="edit">
+            <EditIcon/>
+          </IconButton>
+        </TableCell>
+        <TableCell>
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              {/* <Typography variant="h6" gutterBottom component="div">
                 Descrição
-              </Typography>
+              </Typography> */}
               <Typography variant ="caption">
                 {row.descricao}
               </Typography>
@@ -114,12 +126,14 @@ const rows = [
 
 export default function CollapsibleTable() {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell sx={{width: '40px'}}/>
             <TableCell /> {/*colocar nome na table aqui se quiser */}
+            <TableCell align="right" sx={{width: '40px'}}/>
+            <TableCell align="right" sx={{width: '40px'}}/>
           </TableRow>
         </TableHead>
         <TableBody>
