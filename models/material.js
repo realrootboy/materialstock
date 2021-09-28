@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Material.init({
     name: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.STRING, allowNull: true }
   }, {
     sequelize,
     modelName: 'Material',

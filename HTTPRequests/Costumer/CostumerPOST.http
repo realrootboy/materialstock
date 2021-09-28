@@ -1,0 +1,8 @@
+POST http://localhost:8080/costumer HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "contact": "+55 55 55555-5555",
+    "location": "China - Brazil"
+}

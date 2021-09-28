@@ -1,0 +1,19 @@
+POST http://localhost:8080/lease HTTP/1.1
+content-type: application/json
+
+{
+    "location": "Rua Ali Perto, num 55 - Vitória ES",
+    "mountDay": "1-25-1999 00:00:00",
+    "leaseTime": "1-25-1999 12:00:00",
+    "costumer": {
+        "id": 1
+    },
+    "employees": [
+        {
+            "id": 1
+        },
+        {
+            "id": 2
+        }
+    ]
+}
