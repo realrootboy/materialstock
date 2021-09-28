@@ -39,7 +39,8 @@ class LeaseController {
             const c = await Costumer.findOne({
                 where: { id: costumer.id }
             });
-            await lease.setCostumer(c);
+            if(c)
+                await lease.setCostumer(c);
         }
         return res.status(200).json({ Updated: { Lease: update, employees, costumer } });
     }

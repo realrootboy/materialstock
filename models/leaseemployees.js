@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     Action: {
       type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     sequelize,
