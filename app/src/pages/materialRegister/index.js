@@ -6,6 +6,7 @@ import MaterialForm from '../../components/materialForm'
 import List from '../../components/grid'
 import Container from '@material-ui/core/Container'
 import Box from '@material-ui/core/Box'
+import Table from '../../components/Table'
 
 
 const MaterialRegister = () => {
@@ -13,13 +14,14 @@ const MaterialRegister = () => {
   
 
   return (
-    <Container>
+    <Container fixed>
       <Topbar/>
         <MaterialForm/>
       <Box display="flex">
         <Drawer/>
-        <List/>  
+        {/* <List/>   */}
       </Box>
+      <Table/>
     </Container>
   );
 }
