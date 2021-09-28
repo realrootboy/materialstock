@@ -26,7 +26,7 @@ const seed = async () => {
     let leaseObject = await Lease.create({
         "location": "Rua Ali Perto, num 55 - Vitória ES",
         "mountDay": "1-25-1999 00:00:00",
-        "umountDay": null,
+        "unmountDay": null,
         "leaseTime": "01-25-1999 15:00:00",
     })
     

@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Lease.init({
     location: DataTypes.STRING,
     mountDay: DataTypes.DATE,
-    umountDay: DataTypes.DATE,
+    unmountDay: DataTypes.DATE,
     leaseTime: DataTypes.DATE
   }, {
     sequelize,
