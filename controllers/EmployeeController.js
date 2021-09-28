@@ -1,8 +1,23 @@
 const { sequelize, Employee } = require('./../models');
-const MaterialController = require('./MaterialController');
 const router = require("express").Router();
+const { validate, Joi } = require('express-validation');
 
 const basePath = "/employee";
+
+const postValidation = {
+    body: Joi.object({
+        name: Joi.string()
+            .required(),
+        contact: Joi.string()
+    }),
+};
+
+const putValidation = {
+    body: Joi.object({
+        name: Joi.string(),
+        contact: Joi.string()
+    }),
+};
 
 class EmployeeController {
 
@@ -41,8 +56,8 @@ class EmployeeController {
 
 module.exports = (()=>{
     router.get(basePath,EmployeeController.get);
-    router.post(basePath,EmployeeController.post);
-    router.put(`${basePath}/:id`, EmployeeController.put);
+    router.post(basePath, validate(postValidation), EmployeeController.post);
+    router.put(`${basePath}/:id`, validate(putValidation), EmployeeController.put);
     router.delete(`${basePath}/:id`, EmployeeController.delete);
     return router;
 })();

@@ -1,7 +1,24 @@
 const { sequelize, LeaseObject, Material } = require("./../models");
 const router = require("express").Router();
+const { validate, Joi } = require("express-validation");
 
 const basePath = "/leaseobject";
+
+const postValidation = {
+    body: Joi.object({
+        name: Joi.string().required(),
+        description: Joi.string(),
+        materials: Joi.array(),
+    }),
+};
+
+const putValidation = {
+    body: Joi.object({
+        name: Joi.string(),
+        description: Joi.string(),
+        materials: Joi.array(),
+    }),
+};
 
 class LeaseObjectController {
     static get = async (req, res) => {
@@ -43,8 +60,8 @@ class LeaseObjectController {
 
 module.exports = (() => {
     router.get(basePath, LeaseObjectController.get);
-    router.post(basePath, LeaseObjectController.post);
-    router.put(`${basePath}/:id`, LeaseObjectController.put);
+    router.post(basePath, validate(postValidation), LeaseObjectController.post);
+    router.put(`${basePath}/:id`, validate(putValidation), LeaseObjectController.put);
     router.delete(`${basePath}/:id`, LeaseObjectController.delete);
     return router;
 })();
