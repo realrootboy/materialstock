@@ -13,7 +13,7 @@ import Table from '../../components/Table';
 
 
 const MaterialRegister = () => {
-  const[page, setPage] = useState('material');
+  const[page, setPage] = useState('lease');
   
   console.log(page)
   return (
@@ -24,7 +24,7 @@ const MaterialRegister = () => {
       page === 'employee' ? <EmployeeForm/>:
       <CostumerForm/>}
       <Box display="flex">
-        <Drawer/>
+        <Drawer setPage={setPage}/>
         {/* <List/>   */}
       </Box>
       {/* Se passar a req pro componente acho q da pra reaproveitar a tabela*/}

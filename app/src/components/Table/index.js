@@ -64,9 +64,10 @@ function Row(props) {
   );
 }
 
+
 Row.propTypes = {
   row: PropTypes.shape({
-    name: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
     descricao: PropTypes.string,
   }).isRequired,
 };
@@ -86,42 +87,7 @@ const rows = [
     id: 3,
     name: 'renao',
     descricao: 'blebelbel'
-  },
-  {
-    id: 4,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 5,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 6,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 7,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 8,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 9,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 10,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
+  }
 ]
 
 export default function CollapsibleTable() {
@@ -131,14 +97,13 @@ export default function CollapsibleTable() {
         <TableHead>
           <TableRow>
             <TableCell sx={{width: '40px'}}/>
-            <TableCell /> {/*colocar nome na table aqui se quiser */}
             <TableCell align="right" sx={{width: '40px'}}/>
             <TableCell align="right" sx={{width: '40px'}}/>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.name} row={row} />
+            <Row key={row.id} row={row} />
           ))}
         </TableBody>
       </Table>
