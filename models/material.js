@@ -11,11 +11,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'MaterialId',
         onDelete: 'cascade'
       });
+      models.Material.belongsToMany(models.Lease, {
+        through: 'LeaseMaterials',
+        as: 'leases',
+        foreignKey: 'MaterialId',
+        onDelete: 'cascade',
+      });
     }
   };
   Material.init({
     name: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.STRING, allowNull: true }
+    description: { type: DataTypes.STRING, allowNull: true },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    }
   }, {
     sequelize,
     modelName: 'Material',

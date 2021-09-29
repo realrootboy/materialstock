@@ -4,16 +4,24 @@ content-type: application/json
 {
     "location": "Rua Ali Perto, num 55 - Vitória ES",
     "mountDay": "1-25-1999 00:00:00",
-    "leaseTime": "1-25-1999 12:00:00",
-    "costumer": {
-        "id": 1
-    },
+    "leaseTime": "01-25-1999 15:00:00",
+    "costumer": { "id": 1 },
     "employees": [
         {
-            "id": 1
+            "id":1,
+            "action":"motorista"
         },
         {
-            "id": 2
+            "id":2
+        }
+    ],
+    "materials": [
+        {
+            "id":1,
+            "quantity":20
+        },
+        {
+            "id":2
         }
     ]
 }

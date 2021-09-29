@@ -3,10 +3,10 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class LeaseEmployees extends Model {
+  class LeaseMaterials extends Model {
     static associate(models) { }
   };
-  LeaseEmployees.init({
+  LeaseMaterials.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -18,18 +18,18 @@ module.exports = (sequelize, DataTypes) => {
       unique: false,
       primaryKey: false,
     },
-    EmployeeId: {
+    MaterialId: {
       type: DataTypes.INTEGER,
-      references: {model: 'Employee', key: 'id'},
+      references: {model: 'Material', key: 'id'},
       unique: false,
       primaryKey: false,
     },
-    action: {
-      type: DataTypes.STRING,
+    quantity: {
+      type: DataTypes.INTEGER,
     }
   }, {
     sequelize,
-    modelName: 'LeaseEmployees',
+    modelName: 'LeaseMaterials',
   });
-  return LeaseEmployees;
+  return LeaseMaterials;
 };

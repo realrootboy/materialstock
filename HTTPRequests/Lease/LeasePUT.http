@@ -2,14 +2,15 @@ PUT http://localhost:8080/lease/1 HTTP/1.1
 content-type: application/json
 
 {
-    "umountDay": "01-25-1999 15:00:00",
+    "unmountDay": "01-25-1999 15:00:00",
 
     "costumer": {
         "id": 1
     },
     "employees": [
         {
-            "id": 1
+            "id": 2,
+            "action":"motorista"
         }
     ]
 }
