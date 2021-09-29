@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'LeaseId',
         onDelete: 'cascade'
       });
+      models.Lease.belongsToMany(models.Material, {
+        through: 'LeaseMaterials',
+        as: 'materials',
+        foreignKey: 'LeaseId',
+        onDelete: 'cascade'
+      })
       models.Lease.belongsTo(models.Costumer);
     }
   };

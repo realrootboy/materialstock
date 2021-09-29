@@ -8,14 +8,16 @@ const postValidation = {
     body: Joi.object({
         name: Joi.string()
             .required(),
-        description: Joi.string()
+        description: Joi.string(),
+        quantity: Joi.number()
     }),
 };
 
 const putValidation = {
     body: Joi.object({
         name: Joi.string(),
-        description: Joi.string()
+        description: Joi.string(),
+        quantity: Joi.number()
     }),
 }
 
@@ -27,19 +29,19 @@ class MaterialController {
     }
 
     static post = async (req, res) => {
-        const { name, description } = req.body;
-        const material = await Material.create({ name, description });
+        const { name, description, quantity } = req.body;
+        const material = await Material.create({ name, description, quantity });
         return res.status(200).json(material);
     }
 
     static put = async (req, res) => {
         const { id } = req.params;
-        const { name, description } = req.body;
+        const { name, description, quantity } = req.body;
         const material = await Material.findOne({
             where: { id }
         });
         if (!material) res.status(401).json({ id, message: "ID not found" });
-        const update = await material.update({ name, description });
+        const update = await material.update({ name, description, quantity });
         return res.status(200).json(update);
     }
 
