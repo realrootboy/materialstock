@@ -19,6 +19,7 @@ import EditIcon from '@mui/icons-material/Edit'
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const { editAction, deleteAction } = props;
 
   return (
     <React.Fragment>
@@ -36,12 +37,12 @@ function Row(props) {
           {row.name}
         </TableCell>
         <TableCell>
-          <IconButton edge ="end" aria-label="edit">
-            <EditIcon/>
+          <IconButton edge="end" aria-label="edit" onClick={()=>editAction()}>
+            <EditIcon />
           </IconButton>
         </TableCell>
         <TableCell>
-          <IconButton edge="end" aria-label="delete">
+          <IconButton edge="end" aria-label="delete" onClick={()=>deleteAction()}>
             <DeleteIcon />
           </IconButton>
         </TableCell>
@@ -53,7 +54,7 @@ function Row(props) {
               {/* <Typography variant="h6" gutterBottom component="div">
                 Descrição
               </Typography> */}
-              <Typography variant ="caption">
+              <Typography variant="caption">
                 {row.descricao}
               </Typography>
             </Box>
@@ -63,7 +64,6 @@ function Row(props) {
     </React.Fragment>
   );
 }
-
 
 Row.propTypes = {
   row: PropTypes.shape({
@@ -90,20 +90,22 @@ const rows = [
   }
 ]
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable(props) {
+  const editAction = props.reqs.editAction;
+  const deleteAction = props.reqs.deleteAction;
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{width: '40px'}}/>
-            <TableCell align="right" sx={{width: '40px'}}/>
-            <TableCell align="right" sx={{width: '40px'}}/>
+            <TableCell sx={{ width: '40px' }} />
+            <TableCell align="right" sx={{ width: '40px' }} />
+            <TableCell align="right" sx={{ width: '40px' }} />
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.id} row={row} />
+            <Row key={row.id} row={row} editAction={editAction} deleteAction={deleteAction} />
           ))}
         </TableBody>
       </Table>
