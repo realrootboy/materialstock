@@ -1,7 +1,24 @@
 const { sequelize, LeaseObject, Material } = require("./../models");
 const router = require("express").Router();
+const { validate, Joi } = require("express-validation");
 
 const basePath = "/leaseobject";
+
+const postValidation = {
+    body: Joi.object({
+        name: Joi.string().required(),
+        description: Joi.string(),
+        materials: Joi.array(),
+    }),
+};
+
+const putValidation = {
+    body: Joi.object({
+        name: Joi.string(),
+        description: Joi.string(),
+        materials: Joi.array(),
+    }),
+};
 
 class LeaseObjectController {
     static get = async (req, res) => {
@@ -10,24 +27,24 @@ class LeaseObjectController {
     }
 
     static post = async (req, res) => {
-        const { name, materials } = req.body;
-        let leaseObject = await LeaseObject.create({name});
-        if(materials && materials.length)
-            await leaseObject.setMaterials(materials.map(el=>el.id));
-        return res.status(200).json({leaseObject, materials});
+        const { name, description, materials } = req.body;
+        let leaseObject = await LeaseObject.create({ name, description });
+        if (materials && materials.length)
+            await leaseObject.setMaterials(materials.map(el => el.id));
+        return res.status(200).json({ leaseObject, materials });
     }
 
     static put = async (req, res) => {
         const { id } = req.params;
-        const { name, materials } = req.body;
+        const { name, description, materials } = req.body;
         const leaseObject = await LeaseObject.findOne({
             where: { id }
         });
         if (!leaseObject) res.status(401).json({ id, message: "ID not found" });
-        const update = await leaseObject.update({name});
-        if(materials && materials.length)
-            await leaseObject.setMaterials(materials.map(el=>el.id));
-        return res.status(200).json({Updated:{LeaseObject: update, materials}});
+        const update = await leaseObject.update({ name, description });
+        if (materials && materials.length)
+            await leaseObject.setMaterials(materials.map(el => el.id));
+        return res.status(200).json({ Updated: { LeaseObject: update, materials } });
     }
 
     static delete = async (req, res) => {
@@ -43,8 +60,8 @@ class LeaseObjectController {
 
 module.exports = (() => {
     router.get(basePath, LeaseObjectController.get);
-    router.post(basePath, LeaseObjectController.post);
-    router.put(`${basePath}/:id`, LeaseObjectController.put);
+    router.post(basePath, validate(postValidation), LeaseObjectController.post);
+    router.put(`${basePath}/:id`, validate(putValidation), LeaseObjectController.put);
     router.delete(`${basePath}/:id`, LeaseObjectController.delete);
     return router;
 })();

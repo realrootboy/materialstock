@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   LeaseObject.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    description: { type: DataTypes.STRING, allowNull: true }
   }, {
     sequelize,
     modelName: 'LeaseObject',

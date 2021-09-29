@@ -88,9 +88,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const setPage = props.setPage;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -130,15 +131,22 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Materiais', 'Lease Objects', 'Funcionarios', 'Clientes'].map((text, index) => (
-            <ListItem button key={text}>
+          {[{
+            page: 'material',
+            label: 'Materiais'
+          },
+          { page: 'lease', label: 'Lease Objects' },
+          { page: 'employee', label: 'Funcionarios' },
+          { page: '', label: 'Clientes' },
+          ].map((text, index) => (
+            <ListItem button key={text} onClick={() => setPage(text.page)}>
               <ListItemIcon>
-                {index === 0 ? <MaterialIcon/>: 
-                index === 1 ? <FestivalIcon/>: 
-                index === 2 ? <EmployeeIcon/>:
-                <CostumerIcon/>}
+                {index === 0 ? <MaterialIcon /> :
+                  index === 1 ? <FestivalIcon /> :
+                    index === 2 ? <EmployeeIcon /> :
+                      <CostumerIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text.label} />
             </ListItem>
           ))}
         </List>
