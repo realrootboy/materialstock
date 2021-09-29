@@ -133,7 +133,7 @@ export default function MiniDrawer() {
           {['Materiais', 'Lease Objects', 'Funcionarios', 'Clientes'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index === 0 ? <MaterialIcon/> : 
+                {index === 0 ? <MaterialIcon/>: 
                 index === 1 ? <FestivalIcon/>: 
                 index === 2 ? <EmployeeIcon/>:
                 <CostumerIcon/>}

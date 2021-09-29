@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { Typography } from '@mui/material';
-import api from '../../services/api';
+import api from '../../../services/api';
 
 function MaterialForm() {
   const[name, setName]= useState('');
@@ -29,7 +29,7 @@ function MaterialForm() {
             <Grid item xs={12}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                <Typography variant="h4" component="h2" mt={5} align='center'>Cadastro de itens</Typography>
+                <Typography variant="h4" component="h2" mt={5} align='center'>Cadastro de Materiais</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField fullWidth label="Nome" name="nome" size="small" variant="outlined" value={name} onChange={e => setName(e.target.value)}/>
