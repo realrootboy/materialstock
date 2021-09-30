@@ -55,7 +55,7 @@ function Row(props) {
               {/* <Typography variant="h6" gutterBottom component="div">
                 Descrição
               </Typography> */}
-              <Typography variant="caption">
+              <Typography variant="subtitle2" paragraph="true"  >
                 {listString=== '/material' ? row.description: row.contact} {/*terminar de fazer essa logica com o lease pronto */}
               </Typography>
             </Box>
@@ -75,12 +75,8 @@ Row.propTypes = {
 
 export default function CollapsibleTable(props) {
   const editAction = props.reqs.editAction;
-  const deleteAction = props.reqs.deleteAction;
-
  
   const [rows, setRows] = useState([]);
-  const id = 1;
-
   useEffect(()=>{  
     const listString = props.reqs.listAction;
     api.get(`${listString}`).then(response => {

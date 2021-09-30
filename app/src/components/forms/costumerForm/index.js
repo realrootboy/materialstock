@@ -18,7 +18,10 @@ function EmployeeForm() {
         "name": name,
         "contact": contact,
         "location": location,
-      })
+      });
+      setName('');
+      setContact('');
+      setLocation('');
     }
     catch(err){
 

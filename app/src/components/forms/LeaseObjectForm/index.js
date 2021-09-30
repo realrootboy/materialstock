@@ -21,6 +21,8 @@ function LeaseObjectForm() {
     catch(err){
 
     }
+    setName('');
+    setDescription('');
   }
   return(
     <Container maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
