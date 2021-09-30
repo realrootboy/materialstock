@@ -15,12 +15,15 @@ function MaterialForm() {
     try{
       await api.post('/material', {
         "name": name,
-        "descricao": description,
-      })
+        "description": description,
+      });
+      setName('');
+      setDescription('');
     }
     catch(err){
 
     }
+
   }
   return(
     <Container maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -51,7 +54,7 @@ function MaterialForm() {
             </Grid>
             <Grid item xs={12}>
               <Button color="secondary" fullWidth type="submit" variant="contained">
-                Cadastrar material
+                Cadastrar
               </Button>
             </Grid>
           </Grid>

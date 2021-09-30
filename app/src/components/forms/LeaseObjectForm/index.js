@@ -21,6 +21,8 @@ function LeaseObjectForm() {
     catch(err){
 
     }
+    setName('');
+    setDescription('');
   }
   return(
     <Container maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -29,7 +31,7 @@ function LeaseObjectForm() {
             <Grid item xs={12}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                <Typography variant="h4" component="h2" mt={5} align='center'>Cadastro de itens</Typography>
+                <Typography variant="h4" component="h2" mt={5} align='center'>Cadastro de locação</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField fullWidth label="Nome" name="nome" size="small" variant="outlined" value={name} onChange={e => setName(e.target.value)}/>
@@ -51,7 +53,7 @@ function LeaseObjectForm() {
             </Grid>
             <Grid item xs={12}>
               <Button color="secondary" fullWidth type="submit" variant="contained">
-                Cadastrar material
+                Cadastrar
               </Button>
             </Grid>
           </Grid>

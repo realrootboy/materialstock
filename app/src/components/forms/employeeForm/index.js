@@ -16,7 +16,9 @@ function EmployeeForm() {
       await api.post('/employee', {
         "name": name,
         "contact": contact,
-      })
+      });
+      setName('');
+      setContact('');
     }
     catch(err){
 
