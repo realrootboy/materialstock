@@ -43,7 +43,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell>
-          <IconButton edge="end" aria-label="delete" onClick={()=>deleteAction()}>
+          <IconButton edge="end" aria-label="delete" onClick={()=>deleteAction(row.id)}>
             <DeleteIcon />
           </IconButton>
         </TableCell>
@@ -88,21 +88,19 @@ export default function CollapsibleTable(props) {
       })
   }, [props.reqs.listAction,rows]); 
 
-  // async function handleDeleteIncident(id){
-  //     try{
-  //         await api.delete(`incidents/${id}`, {
-  //             headers : {
-  //                 Authorization: ongId,
-  //             }
-  //         });
-      
-  //     setIncidents(incidents.filter(incident => incident.id !== id))
-  //     }
-  //     catch(err){
-  //         alert('erro ao deletar')
+  async function handleDeleteIncident(deleteid){
+    const id = deleteid;
+    const listString = props.reqs.listAction;
+    try{
+        await api.delete(`${listString}/${id}`);
+    
+    setRows(rows.filter(row => row.id !== id))
+    }
+    catch(err){
+        alert('erro ao deletar')
 
-  //     }
-  // }
+    }
+  }
 
 
 
@@ -119,7 +117,7 @@ export default function CollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.id} row={row} editAction={editAction} deleteAction={deleteAction} listString={props.reqs.listAction}/>
+            <Row key={row.id} row={row} editAction={editAction} deleteAction={handleDeleteIncident} listString={props.reqs.listAction}/>
           ))}
         </TableBody>
       </Table>
