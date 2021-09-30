@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -15,11 +15,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit'
+import api from '../../services/api'
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
-  const { editAction, deleteAction } = props;
+  const { editAction, deleteAction, listString } = props;
 
   return (
     <React.Fragment>
@@ -48,14 +49,14 @@ function Row(props) {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0}} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               {/* <Typography variant="h6" gutterBottom component="div">
                 Descrição
               </Typography> */}
               <Typography variant="caption">
-                {row.descricao}
+                {listString=== '/material' ? row.description: row.contact} {/*terminar de fazer essa logica com o lease pronto */}
               </Typography>
             </Box>
           </Collapse>
@@ -72,40 +73,53 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  {
-    id: 1,
-    name: 'icaro',
-    descricao: 'blablablablabla'
-  },
-  {
-    id: 2,
-    name: 'renao',
-    descricao: 'blebelbel'
-  },
-  {
-    id: 3,
-    name: 'renao',
-    descricao: 'blebelbel'
-  }
-]
-
 export default function CollapsibleTable(props) {
   const editAction = props.reqs.editAction;
   const deleteAction = props.reqs.deleteAction;
+
+ 
+  const [rows, setRows] = useState([]);
+  const id = 1;
+
+  useEffect(()=>{  
+    const listString = props.reqs.listAction;
+    api.get(`${listString}`).then(response => {
+        setRows(response.data)
+      })
+  }, [props.reqs.listAction]); 
+
+  // async function handleDeleteIncident(id){
+  //     try{
+  //         await api.delete(`incidents/${id}`, {
+  //             headers : {
+  //                 Authorization: ongId,
+  //             }
+  //         });
+      
+  //     setIncidents(incidents.filter(incident => incident.id !== id))
+  //     }
+  //     catch(err){
+  //         alert('erro ao deletar')
+
+  //     }
+  // }
+
+
+
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ width: '40px' }} />
+            <TableCell/> {/* pra ficar bonito */}
             <TableCell align="right" sx={{ width: '40px' }} />
             <TableCell align="right" sx={{ width: '40px' }} />
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.id} row={row} editAction={editAction} deleteAction={deleteAction} />
+            <Row key={row.id} row={row} editAction={editAction} deleteAction={deleteAction} listString={props.reqs.listAction}/>
           ))}
         </TableBody>
       </Table>

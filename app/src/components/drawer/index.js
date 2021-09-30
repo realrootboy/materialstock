@@ -137,7 +137,7 @@ export default function MiniDrawer(props) {
           },
           { page: 'lease', label: 'Lease Objects' },
           { page: 'employee', label: 'Funcionarios' },
-          { page: '', label: 'Clientes' },
+          { page: 'costumer', label: 'Clientes' },
           ].map((text, index) => (
             <ListItem button key={text} onClick={() => setPage(text.page)}>
               <ListItemIcon>
