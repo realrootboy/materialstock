@@ -86,7 +86,7 @@ export default function CollapsibleTable(props) {
     api.get(`${listString}`).then(response => {
         setRows(response.data)
       })
-  }, [props.reqs.listAction]); 
+  }, [props.reqs.listAction,rows]); 
 
   // async function handleDeleteIncident(id){
   //     try{

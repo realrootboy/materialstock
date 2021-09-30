@@ -11,7 +11,7 @@ function EmployeeForm() {
   const[contact, setContact]= useState('');
   const[location, setLocation]= useState('');
   
-  async function handleNewEmployee(e){
+  async function handleNewCostumer(e){
     e.preventDefault();
     try{
       await api.post('/costumer', {
@@ -26,7 +26,7 @@ function EmployeeForm() {
   }
   return(
     <Container maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <form onSubmit={handleNewEmployee}>
+        <form onSubmit={handleNewCostumer}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Grid container spacing={2}>

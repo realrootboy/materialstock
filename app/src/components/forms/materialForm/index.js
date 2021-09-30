@@ -15,7 +15,7 @@ function MaterialForm() {
     try{
       await api.post('/material', {
         "name": name,
-        "descricao": description,
+        "description": description,
       })
     }
     catch(err){
