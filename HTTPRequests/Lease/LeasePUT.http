@@ -2,15 +2,32 @@ PUT http://localhost:8080/lease/1 HTTP/1.1
 content-type: application/json
 
 {
-    "unmountDay": "01-25-1999 15:00:00",
-
-    "costumer": {
-        "id": 1
-    },
-    "employees": [
-        {
-            "id": 2,
-            "action":"motorista"
+          "location": "Rua Ali Perto, num 55 - Vitória ES",
+        "mountDay": "1999-01-25T02:00:00.000Z",
+        "unmountDay": null,
+        "leaseTime": "1999-01-25T17:00:00.000Z",
+        "materials": [],
+        "employees": [
+            {
+                "id": 1,
+                "name": "Renan",
+                "contact": null,
+                "createdAt": null,
+                "updatedAt": null,
+                "LeaseEmployees": null,
+                "action": "montador"
+            },
+            {
+                "id": 2,
+                "name": "Icaro Mada",
+                "contact": null,
+                "createdAt": null,
+                "updatedAt": null,
+                "LeaseEmployees": null,
+                "action": "montador"
+            }
+        ],
+        "costumer": {
+            "id": 1
         }
-    ]
 }

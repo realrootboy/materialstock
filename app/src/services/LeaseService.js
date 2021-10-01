@@ -14,12 +14,15 @@ class MaterialService {
     }
 
     static insert = async (data) => {
+        console.log({data});
         const response = await api.post(base_path, data);
         return response.data;
     }
 
     static edit = async (id, data) => {
+        
         const response = await api.put(`${base_path}/${id}`, data);
+        
         return response.data;
     }
 

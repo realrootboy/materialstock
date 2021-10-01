@@ -19,6 +19,7 @@ import MaterialIcon from '@mui/icons-material/HomeRepairService';
 import FestivalIcon from '@mui/icons-material/Festival';
 import EmployeeIcon from '@mui/icons-material/Engineering';
 import CostumerIcon from '@mui/icons-material/Group';
+import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 
 
 const drawerWidth = 240;
@@ -133,9 +134,10 @@ export default function MiniDrawer(props) {
         <List>
           {[
             { page: 'material', label: 'Materiais' },
-            { page: 'lease', label: 'Objetos de Locação' },
+            { page: 'leaseobject', label: 'Objetos de Locação' },
             { page: 'employee', label: 'Funcionarios' },
             { page: 'costumer', label: 'Clientes' },
+            { page: 'lease', label: 'Ordens de Serviço' }
           ].map((text, index) => (
             <ListItem button key={index} onClick={() => setPage(text.page)}>
               <ListItemIcon>
@@ -143,6 +145,7 @@ export default function MiniDrawer(props) {
                 {index === 1 ? <FestivalIcon /> : null}
                 {index === 2 ? <EmployeeIcon /> : null}
                 {index === 3 ? <CostumerIcon /> : null}
+                {index === 4 ? <EmojiTransportationIcon /> : null}
               </ListItemIcon>
               <ListItemText primary={text.label} />
             </ListItem>

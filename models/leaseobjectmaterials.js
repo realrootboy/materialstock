@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       references: {model: 'Material', key: 'id'},
       unique: false,
       primaryKey: false,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
     }
   }, {
     sequelize,

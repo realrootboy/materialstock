@@ -11,10 +11,10 @@ const {
 const seed = async () => {
     await Material.create({ "name": "parafuso", "description": "fura muito" });
     await Material.create({ "name": "corda", "description": "não suba!" });
-    await Material.create({ "name": "lona" });
+    await Material.create({ "name": "lona", "description": "vixi"  });
 
     await (await LeaseObject.create({"name": "tenda", "description": "Ideal para cobrir"})).setMaterials([1,2,3]);
-    await (await LeaseObject.create({"name": "marimba"})).setMaterials([1,2]);
+    await (await LeaseObject.create({"name": "marimba", "description": "vixi" })).setMaterials([1,2]);
 
     await (await Employee.create({"name": "Renan", "contact": "+55 27 99999-9999"}));
     await (await Employee.create({"name": "Icaro Mada", "contact": "+55 21 99999-9999"}));

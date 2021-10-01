@@ -6,6 +6,7 @@ import MaterialForm from '../../components/forms/materialForm';
 import LeaseObjectForm from '../../components/forms/LeaseObjectForm'
 import EmployeeForm from '../../components/forms/employeeForm'
 import CostumerForm from '../../components/forms/costumerForm'
+import LeaseForm from '../../components/forms/LeaseForm';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import MyTable from '../../components/Table';
@@ -13,10 +14,12 @@ import MyTable from '../../components/Table';
 import MaterialService from '../../services/MaterialService';
 import EmployeeService from '../../services/EmployeeService';
 import CostumerService from '../../services/CostumerService';
+import LeaseObjectService from '../../services/LeaseObjectService';
+import LeaseService from '../../services/LeaseService';
 
 
 const MainApp = () => {
-  const [page, setPage] = useState('material');
+  const [page, setPage] = useState('lease');
   const [activeReqs, setActiveReqs] = useState({});
   const [tableData, setTableData] = useState([]);
   const [tableHeaders, setTableHeaders] = useState([]);
@@ -59,6 +62,28 @@ const MainApp = () => {
             setTableHeaders(headers);
           }
           break;
+        case 'leaseobject':
+          setActiveReqs({
+            deleteAction: LeaseObjectService.delete,
+          });
+
+          fetchData = async () => {
+            const { leaseObjects, headers } = await LeaseObjectService.list();
+            setTableData(leaseObjects);
+            setTableHeaders(headers);
+          }
+          break;
+        case 'lease':
+          setActiveReqs({
+            deleteAction: LeaseService.delete
+          });
+
+          fetchData = async () => {
+            const { leases, headers } = await LeaseService.list();
+            setTableData(leases);
+            setTableHeaders(headers);
+          }
+          break;
         default:
           break;
       }
@@ -84,12 +109,13 @@ const MainApp = () => {
         <EmployeeForm setSelected={(id) => setSelected(id)} selected={selected} refresh={() => handlePageLoad()} /> : null}
       {page === 'costumer' ?
         <CostumerForm setSelected={(id) => setSelected(id)} selected={selected} refresh={() => handlePageLoad()} /> : null}
+        {page === 'lease' ? 
+           <LeaseForm setSelected={(id) => setSelected(id)} selected={selected} refresh={() => handlePageLoad()} /> : null}
       <Box display="flex">
         <Drawer setPage={setPage} />
       </Box>
       {/* Se passar a req pro componente acho q da pra reaproveitar a tabela*/}
       <MyTable
-        reqs={activeReqs}
         tableData={tableData}
         tableHeaders={tableHeaders}
         deleteAction={activeReqs.deleteAction}

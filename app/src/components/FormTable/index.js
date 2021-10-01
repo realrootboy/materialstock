@@ -15,19 +15,19 @@ import EditIcon from '@mui/icons-material/Edit'
 const useStyles = makeStyles({
 
     table: {
-        minWidth: 650,
-        height: 500,
+        width: '100%',
+        height: 300,
+        border: '1px solid #ccc',
     },
 
 });
 
-const MyTable = (props) => {
+const FormTable = (props) => {
     const rows = props.tableData || [];
     const columns = props.tableHeaders;
     const setSelected = props.setSelected || undefined;
     const deleteAction  = props.deleteAction;
     const refreshTable = props.refreshTable;
-
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -50,24 +50,26 @@ const MyTable = (props) => {
     }
 
     const classes = useStyles();
+
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}   >
+            <TableContainer sx={{ maxHeight: 300 }}   >
                 <Table stickyHeader={true} className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell>{column}</TableCell>
                             ))}
-                            <TableCell>Edit</TableCell>
-                            <TableCell>Delete</TableCell>
+                            <TableCell>Remove</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
-                            const values = Object.values(row).filter(element => !Array.isArray(element)).slice(0, -2);
-                            
+                           
+
+                            const values = Object.values(row).filter(element => !Array.isArray(element) && element!=null);
+
                             return (
                                 <TableRow key={row.id} >
                                     {
@@ -77,11 +79,6 @@ const MyTable = (props) => {
                                             </TableCell>
                                         ))
                                     }
-                                    <TableCell>
-                                        <IconButton edge="end" aria-label="edit" onClick={() => handleClick(row.id, setSelected)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                    </TableCell>
                                     <TableCell>
                                         <IconButton edge="end" aria-label="delete" onClick={() => handleClick(row.id, deleteAction)}>
                                             <DeleteIcon />
@@ -102,7 +99,7 @@ const MyTable = (props) => {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Paper>
-    );
+    )
 }
 
-export default MyTable;
+export default FormTable;

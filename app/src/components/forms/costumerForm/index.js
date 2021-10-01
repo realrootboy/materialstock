@@ -81,7 +81,7 @@ function EmployeeForm(props) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth label="Locação" name="location" size="small" variant="outlined" value={location} onChange={e => setLocation(e.target.value)} />
+                <TextField fullWidth label="Localização" name="location" size="small" variant="outlined" value={location} onChange={e => setLocation(e.target.value)} />
               </Grid>
             </Grid>
           </Grid>
