@@ -41,6 +41,9 @@ function LeaseForm(props) {
     const [costumerInForm, setCostumerInForm] = useState(-1);
     const [costumersInForm, setCostumersInForm] = useState([]);
 
+    const [leaseObjectInForm, setLeaseObjectInForm] = useState(-1);
+    const [leaseObjectsInForm, setLeaseObjectsInForm] = useState([]);
+
     const [action, setAction] = useState('montador');
 
 
@@ -50,16 +53,16 @@ function LeaseForm(props) {
     function toDBDate(inputDate) {
         try {
             const dt = new Date(inputDate).toISOString();
-            if(dt == 'Invalid Date') return null
+            if (dt == 'Invalid Date') return null
             return dt;
         } catch (err) {
             return null;
-        } 
+        }
     }
 
     async function handleNewItem(e) {
         e.preventDefault();
-        
+
         await LeaseService.insert({ location, mountDay: toDBDate(mountDay), unmountDay: toDBDate(unmountDay), leaseTime: toDBDate(leaseTime), materials, employees, costumer: { id: costumerId } })
         clearFields();
         refresh();
@@ -67,7 +70,7 @@ function LeaseForm(props) {
 
     async function handleEditItem(e) {
         e.preventDefault();
-        await LeaseService.edit(selected, { location, mountDay:  toDBDate(mountDay), unmountDay: toDBDate(unmountDay), leaseTime: toDBDate(leaseTime), materials, employees, costumer: { id: costumerId } });
+        await LeaseService.edit(selected, { location, mountDay: toDBDate(mountDay), unmountDay: toDBDate(unmountDay), leaseTime: toDBDate(leaseTime), materials, employees, costumer: { id: costumerId } });
         clearFields();
         refresh();
     }
@@ -107,6 +110,39 @@ function LeaseForm(props) {
         m.push(new_m);
         console.log({ m }
         )
+        await setMaterials(m);
+        refresh();
+    }
+
+    async function handleAddLeaseObject(e) {
+        e.preventDefault();
+        console.log({ leaseObjectInForm });
+        if (leaseObjectInForm < 0) return;
+        let m_list = leaseObjectsInForm.find(element=>element.id  == leaseObjectInForm).materials;
+
+        let m = materials;
+
+        for (const mt of m_list) {
+            const materialInForm_inside = mt.id;
+            let already_inserted = materials.find(element => element.id == materialInForm_inside);
+
+            if (already_inserted) {
+                console.log(already_inserted);
+                already_inserted.quantity = Number(already_inserted.quantity) + (mt.LeaseObjectMaterials.quantity?mt.LeaseObjectMaterials.quantity:1);
+                const mapped_materials = materials.map(element => element.id == materialInForm_inside ? already_inserted : element);
+                setMaterials(mapped_materials);
+                continue;
+            }
+
+            let new_m = materialsInForm.find(element => element.id == materialInForm_inside);
+            new_m.quantity = mt.LeaseObjectMaterials.quantity?mt.LeaseObjectMaterials.quantity:1;
+            new_m.createdAt = null;
+            new_m.updatedAt = null;
+
+            m.push(new_m);
+        
+            
+        }
         await setMaterials(m);
         refresh();
     }
@@ -151,11 +187,11 @@ function LeaseForm(props) {
 
             function pad(number) {
                 number = Number(number);
-                if(number <= 9) return '0' + number;
+                if (number <= 9) return '0' + number;
                 else return number;
             }
             function fmtToInput(date) {
-                return date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate())+'T'+pad(date.getHours())+':'+pad(date.getMinutes());
+                return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate()) + 'T' + pad(date.getHours()) + ':' + pad(date.getMinutes());
             }
 
             setLocation(location);
@@ -204,11 +240,16 @@ function LeaseForm(props) {
             setEmployeesInForm(employees);
 
             const { costumers } = await CostumerService.list();
-            if (costumers && costumers.length){
-                 setCostumerInForm(costumers[0].id);
-                 setCostumerId(costumers[0].id);
+            if (costumers && costumers.length) {
+                setCostumerInForm(costumers[0].id);
+                setCostumerId(costumers[0].id);
             }
             setCostumersInForm(costumers);
+
+            const { leaseObjects } = await LeaseObjectService.list();
+            if (leaseObjects && leaseObjects.length) setLeaseObjectInForm(leaseObjects[0].id);
+            setLeaseObjectsInForm(leaseObjects);
+          
 
         }
         fetch();
@@ -241,7 +282,7 @@ function LeaseForm(props) {
                                 <TextField fullWidth label="Local" name="location" size="small" variant="outlined" multiline value={location} onChange={e => setLocation(e.target.value)} />
                             </Grid>
                             <Grid item xs>
-                                
+
                                 <TextField fullWidth label="Dia de Montagem" name="mountDay"
                                     InputLabelProps={{ shrink: true }} type="datetime-local" size="small" variant="outlined" value={mountDay} onChange={e => setMountDay(e.target.value)} />
 
@@ -327,14 +368,14 @@ function LeaseForm(props) {
                         >
                             <Grid item xs>
                                 <Grid container
-                                    direction="column"
+                                    direction="row"
                                     justifyContent="space-around"
                                     alignItems="center"
                                     spacing={2}
 
                                 >
                                     <Grid item>
-                                        <InputLabel htmlFor="materialInForm-placeholder">
+                                        <InputLabel htmlFor="costumerInForm-placeholder">
                                             Cliente
                                         </InputLabel>
                                         <Select
@@ -356,6 +397,38 @@ function LeaseForm(props) {
                                                 ))
                                             }
                                         </Select>
+                                    </Grid>
+                                    <Grid item>
+                                        <InputLabel htmlFor="leaseObjectInForm-placeholder">
+                                            Objetos
+                                        </InputLabel>
+                                        <Select
+                                            value={leaseObjectInForm}
+                                            onChange={e => setLeaseObjectInForm(e.target.value)}
+                                            input={<Input name="leaseObjectInForm" id="leaseObjectInForm-placeholder" />}
+                                            displayEmpty
+                                            name="leaseObjectInForm"
+                                        >
+                                            <MenuItem value={-1}>
+                                                <em></em>
+                                            </MenuItem>
+                                            {
+                                                leaseObjectsInForm.map(costumer => (
+                                                    <MenuItem
+                                                        value={costumer.id}>
+                                                        {costumer.name}
+                                                    </MenuItem>
+                                                ))
+                                            }
+
+                                        </Select>
+                                    </Grid>
+                                    <Grid item>
+                                        <FormHelperText>
+                                            <Button variant="contained" onClick={handleAddLeaseObject}>
+                                                <AddIcon />
+                                            </Button>
+                                        </FormHelperText>
                                     </Grid>
 
                                 </Grid>
