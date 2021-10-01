@@ -6,11 +6,13 @@ content-type: application/json
     "materials": [
         {
             "id": 1,
-            "name": "sample2"
+            "name": "sample2",
+            "quantity": 5
         },
         {
             "id": 2,
-            "name": "sample2"
+            "name": "sample2",
+            "quantity": 2
         }
     ]
 }

@@ -3,7 +3,9 @@ const {
     Lease,
     Costumer,
     LeaseMaterials,
-    LeaseEmployees
+    LeaseEmployees,
+    Material,
+    Employee
 } = require("./../models");
 
 const router = require("express").Router();
@@ -26,9 +28,9 @@ const postValidation = {
 const putValidation = {
     body: Joi.object({
         location: Joi.string(),
-        mountDay: Joi.date(),
-        unmountDay: Joi.date(),
-        leaseTime: Joi.date(),
+        mountDay: Joi.date().allow(null),
+        unmountDay: Joi.date().allow(null),
+        leaseTime: Joi.date().allow(null),
         employees: Joi.array(),
         materials: Joi.array(),
         costumer: Joi.object(),
@@ -37,17 +39,30 @@ const putValidation = {
 
 class LeaseController {
     static get = async (req, res) => {
-        const leases = await Lease.findAll();
-        const headers = ['id', 'location', 'mountDay', 'unMountDay', 'leaseTime'];
-        return res.status(200).json({leases, headers});
+        const leases = await Lease.findAll({
+
+            include: [
+                { model: Material, as: 'materials' },
+                { model: Employee, as: 'employees' }
+            ],
+            attributes: { exclude: ['updatedAt'] }
+
+        });
+        const headers = ['id', 'location', 'mountDay', 'unmountDay', 'leaseTime'];
+        return res.status(200).json({ leases, headers });
     }
 
     static getOne = async (req, res) => {
         const { id } = req.params;
         const lease = await Lease.findOne({
-            where: { id }
+            where: { id },
+            include: [
+                { model: Material, as: 'materials' },
+                { model: Employee, as: 'employees' }
+            ],
+            attributes: { exclude: ['updatedAt'] }
         });
-        if(!lease) res.status(401).json({id, message:"ID not found"});
+        if (!lease) res.status(401).json({ id, message: "ID not found" });
         return res.status(200).json(lease);
     }
 
@@ -67,7 +82,7 @@ class LeaseController {
             if (c)
                 await lease.setCostumer(c);
         }
-        let inserted_materials = []
+        let inserted_materials = [];
         if (materials)
             for (const material of materials) {
                 const { id, quantity } = material;
@@ -91,12 +106,13 @@ class LeaseController {
         });
         if (!lease) res.status(401).json({ id, message: "ID not found" });
         const update = await lease.update({ location, mountDay, unmountDay, leaseTime });
-        await lease.setEmployees([]);
-        if (employees)
+        if (employees) {
+            await lease.setEmployees([]);
             for (const employee of employees) {
                 const { id, action } = employee;
                 await LeaseEmployees.create({ LeaseId: lease.id, EmployeeId: id, action });
             }
+        }
         if (costumer) {
             const c = await Costumer.findOne({
                 where: { id: costumer.id }
@@ -104,7 +120,9 @@ class LeaseController {
             if (c)
                 await lease.setCostumer(c);
         }
-        if (materials)
+        let inserted_materials = [];
+        if (materials) {
+            await lease.setMaterials([]);
             for (const material of materials) {
                 const { id, quantity } = material;
                 if (quantity) {
@@ -115,7 +133,8 @@ class LeaseController {
                     inserted_materials.push(inserted);
                 }
             }
-        return res.status(200).json({ Updated: { Lease: update, employees, costumer } });
+        }
+        return res.status(200).json({ Updated: { Lease: update, employees, costumer, materials: inserted_materials } });
     }
 
     static delete = async (req, res) => {

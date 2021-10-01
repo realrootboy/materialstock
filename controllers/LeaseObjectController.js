@@ -1,4 +1,4 @@
-const { sequelize, LeaseObject, Material } = require("./../models");
+const { sequelize, LeaseObject, Material, LeaseObjectMaterials } = require("./../models");
 const router = require("express").Router();
 const { validate, Joi } = require("express-validation");
 
@@ -22,7 +22,9 @@ const putValidation = {
 
 class LeaseObjectController {
     static get = async (req, res) => {
-        const leaseObjects = await LeaseObject.findAll();
+        const leaseObjects = await LeaseObject.findAll({
+            include: { model: Material, as: 'materials' }
+        });
         const headers = ['id', 'name', 'description'];
         return res.status(200).json({ leaseObjects, headers });
     }
@@ -30,7 +32,8 @@ class LeaseObjectController {
     static getOne = async (req, res) => {
         const { id } = req.params;
         const leaseObject = await LeaseObject.findOne({
-            where: { id }
+            where: { id },
+            include: { model: Material, as: 'materials' }
         });
         if (!leaseObject) res.status(401).json({ id, message: "ID not found" });
         return res.status(200).json(leaseObject);
@@ -39,9 +42,22 @@ class LeaseObjectController {
     static post = async (req, res) => {
         const { name, description, materials } = req.body;
         let leaseObject = await LeaseObject.create({ name, description });
-        if (materials && materials.length)
-            await leaseObject.setMaterials(materials.map(el => el.id));
-        return res.status(200).json({ leaseObject, materials });
+        let inserted_materials = [];
+        if (materials)
+            for (const material of materials) {
+                const { id, quantity } = material;
+                if (quantity) {
+                    let inserted = await LeaseObjectMaterials.create({
+                        LeaseObjectId: leaseObject.id, MaterialId: id, quantity
+                    });
+                    inserted.LeaseId = undefined;
+                    inserted.updatedAt = undefined;
+                    inserted.createdAt = undefined;
+                    inserted_materials.push(inserted);
+                }
+            }
+
+        return res.status(200).json({ leaseObject, materials: inserted_materials });
     }
 
     static put = async (req, res) => {
@@ -52,9 +68,25 @@ class LeaseObjectController {
         });
         if (!leaseObject) res.status(401).json({ id, message: "ID not found" });
         const update = await leaseObject.update({ name, description });
-        if (materials && materials.length)
-            await leaseObject.setMaterials(materials.map(el => el.id));
-        return res.status(200).json({ Updated: { LeaseObject: update, materials } });
+        let inserted_materials = []
+        if (materials){
+            await leaseObject.setMaterials([]);
+            for (const material of materials) {
+                const { id, quantity } = material;
+                if (quantity) {
+                    let inserted = await LeaseObjectMaterials.create({
+                        LeaseObjectId: leaseObject.id, MaterialId: id, quantity
+                    });
+                    inserted.LeaseId = undefined;
+                    inserted.updatedAt = undefined;
+                    inserted.createdAt = undefined;
+                    inserted_materials.push(inserted);
+                }
+            }
+        }
+        
+        
+        return res.status(200).json({ Updated: { LeaseObject: update, materials: inserted_materials } });
     }
 
     static delete = async (req, res) => {
