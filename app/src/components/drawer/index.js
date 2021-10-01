@@ -131,20 +131,18 @@ export default function MiniDrawer(props) {
         </DrawerHeader>
         <Divider />
         <List>
-          {[{
-            page: 'material',
-            label: 'Materiais'
-          },
-          { page: 'lease', label: 'Lease Objects' },
-          { page: 'employee', label: 'Funcionarios' },
-          { page: '', label: 'Clientes' },
+          {[
+            { page: 'material', label: 'Materiais' },
+            { page: 'lease', label: 'Objetos de Locação' },
+            { page: 'employee', label: 'Funcionarios' },
+            { page: 'costumer', label: 'Clientes' },
           ].map((text, index) => (
-            <ListItem button key={text} onClick={() => setPage(text.page)}>
+            <ListItem button key={index} onClick={() => setPage(text.page)}>
               <ListItemIcon>
-                {index === 0 ? <MaterialIcon /> :
-                  index === 1 ? <FestivalIcon /> :
-                    index === 2 ? <EmployeeIcon /> :
-                      <CostumerIcon />}
+                {index === 0 ? <MaterialIcon /> : null}
+                {index === 1 ? <FestivalIcon /> : null}
+                {index === 2 ? <EmployeeIcon /> : null}
+                {index === 3 ? <CostumerIcon /> : null}
               </ListItemIcon>
               <ListItemText primary={text.label} />
             </ListItem>
