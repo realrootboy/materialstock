@@ -25,7 +25,16 @@ class MaterialController {
 
     static get = async (req, res) => {
         const materials = await Material.findAll();
-        return res.status(200).json(materials);
+        return res.status(200).json({ materials, headers: ['id', 'name', 'description', 'quantity'] });
+    }
+
+    static getOne = async (req, res) => {
+        const { id } = req.params;
+        const material = await Material.findOne({
+            where: { id }
+        });
+        if (!material) res.status(401).json({ id, message: "ID not found" });
+        return res.status(200).json(material);
     }
 
     static post = async (req, res) => {
@@ -58,8 +67,10 @@ class MaterialController {
 
 module.exports = (() => {
     router.get(basePath, MaterialController.get);
+    router.get(`${basePath}/:id`, MaterialController.getOne);
     router.post(basePath, validate(postValidation), MaterialController.post);
     router.put(`${basePath}/:id`, validate(putValidation), MaterialController.put);
     router.delete(`${basePath}/:id`, MaterialController.delete);
+
     return router;
 })();

@@ -23,7 +23,17 @@ const putValidation = {
 class CostumerController {
     static get = async (req, res) => {
         const costumers = await Costumer.findAll();
-        return res.status(200).json(costumers);
+        const headers = ['id', 'name', 'contact', 'location'];
+        return res.status(200).json({ costumers, headers });
+    }
+
+    static getOne = async (req, res) => {
+        const { id } = req.params;
+        const costumer = await Costumer.findOne({
+            where: { id }
+        });
+        if (!costumer) res.status(401).json({ id, message: "ID not found" });
+        return res.status(200).json(costumer);
     }
 
     static post = async (req, res) => {
@@ -56,6 +66,7 @@ class CostumerController {
 
 module.exports = (() => {
     router.get(basePath, CostumerController.get);
+    router.get(`${basePath}/:id`, CostumerController.getOne);
     router.post(basePath, validate(postValidation), CostumerController.post);
     router.put(`${basePath}/:id`, validate(putValidation), CostumerController.put);
     router.delete(`${basePath}/:id`, CostumerController.delete);

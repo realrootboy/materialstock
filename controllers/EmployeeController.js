@@ -23,7 +23,17 @@ class EmployeeController {
 
     static get = async (req, res) => {
         const employees = await Employee.findAll();
-        return res.status(200).json(employees);
+        const headers = ['id', 'name', 'contact'];
+        return res.status(200).json({employees, headers});
+    }
+
+    static getOne = async (req, res) => {
+        const { id} = req.params;
+        const employee = await Employee.findOne({
+            where: {id}
+        });
+        if (!employee) res.status(401).json({id, message: "ID not found"});
+        return res.status(200).json(employee);
     }
 
     static post = async (req, res) => {
@@ -56,8 +66,10 @@ class EmployeeController {
 
 module.exports = (()=>{
     router.get(basePath,EmployeeController.get);
+    router.get(`${basePath}/:id`, EmployeeController.getOne);
     router.post(basePath, validate(postValidation), EmployeeController.post);
     router.put(`${basePath}/:id`, validate(putValidation), EmployeeController.put);
     router.delete(`${basePath}/:id`, EmployeeController.delete);
+
     return router;
 })();

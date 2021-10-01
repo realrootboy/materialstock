@@ -23,7 +23,17 @@ const putValidation = {
 class LeaseObjectController {
     static get = async (req, res) => {
         const leaseObjects = await LeaseObject.findAll();
-        return res.status(200).json(leaseObjects);
+        const headers = ['id', 'name', 'description'];
+        return res.status(200).json({ leaseObjects, headers });
+    }
+
+    static getOne = async (req, res) => {
+        const { id } = req.params;
+        const leaseObject = await LeaseObject.findOne({
+            where: { id }
+        });
+        if (!leaseObject) res.status(401).json({ id, message: "ID not found" });
+        return res.status(200).json(leaseObject);
     }
 
     static post = async (req, res) => {
@@ -60,6 +70,7 @@ class LeaseObjectController {
 
 module.exports = (() => {
     router.get(basePath, LeaseObjectController.get);
+    router.get(`${basePath}/:id`, LeaseObjectController.getOne);
     router.post(basePath, validate(postValidation), LeaseObjectController.post);
     router.put(`${basePath}/:id`, validate(putValidation), LeaseObjectController.put);
     router.delete(`${basePath}/:id`, LeaseObjectController.delete);
