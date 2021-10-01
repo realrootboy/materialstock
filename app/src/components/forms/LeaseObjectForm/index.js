@@ -54,12 +54,12 @@ function LeaseObjectForm(props) {
     if (materialInForm < 0) return;
     let m = materials;
 
-    let already_inserted = materials.find(element=>element.id == materialInForm);
+    let already_inserted = materials.find(element => element.id == materialInForm);
 
-    if(already_inserted) {
+    if (already_inserted) {
       console.log(already_inserted);
       already_inserted.quantity = Number(quantity) + Number(already_inserted.quantity);
-      const mapped_materials = materials.map(element=> element.id==materialInForm?already_inserted:element);
+      const mapped_materials = materials.map(element => element.id == materialInForm ? already_inserted : element);
       setMaterials(mapped_materials);
       return;
     }
@@ -69,7 +69,7 @@ function LeaseObjectForm(props) {
     new_m.createdAt = null;
     new_m.updatedAt = null;
     m.push(new_m);
-    console.log({m}
+    console.log({ m }
     )
     await setMaterials(m);
     refresh();
@@ -111,7 +111,7 @@ function LeaseObjectForm(props) {
   useEffect(() => {
     const fetch = async () => {
       const { materials } = await MaterialService.list()
-      if(materials && materials.length) setMaterialInForm(materials[0].id);
+      if (materials && materials.length) setMaterialInForm(materials[0].id);
 
       setMaterialsInForm(materials);
     }
@@ -170,7 +170,7 @@ function LeaseObjectForm(props) {
                     <InputLabel htmlFor="materialInForm-placeholder">
                       Material
                     </InputLabel>
-                    <Select 
+                    <Select
                       value={materialInForm}
                       onChange={e => setMaterialInForm(e.target.value)}
                       input={<Input name="materialInForm" id="materialInForm-placeholder" />}
@@ -220,7 +220,7 @@ function LeaseObjectForm(props) {
               direction="column"
               justifyContent="space-around"
               alignItems="center"
-              >
+            >
               <Grid item xs>
                 <Typography variant="h6" component="h5" align='center'>Materiais</Typography>
 
