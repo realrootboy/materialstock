@@ -116,7 +116,7 @@ function LeaseForm(props) {
         if (employeeInForm < 0) return;
         let m = employees;
 
-        let already_inserted = employees.find(element => element.id = employeeInForm);
+        let already_inserted = employees.find(element => element.id == employeeInForm);
 
         if (already_inserted) return;
 
@@ -136,7 +136,7 @@ function LeaseForm(props) {
     }
 
     async function handleRemoveEmployee(id) {
-        const new_employees = materials.filter(element => element.id != id);
+        const new_employees = employees.filter(element => element.id != id);
         setEmployees(new_employees);
     }
 
