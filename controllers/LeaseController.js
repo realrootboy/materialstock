@@ -16,9 +16,9 @@ const basePath = "/lease";
 const postValidation = {
     body: Joi.object({
         location: Joi.string().required(),
-        mountDay: Joi.date(),
-        unmountDay: Joi.date(),
-        leaseTime: Joi.date(),
+        mountDay: Joi.date().allow(null),
+        unmountDay: Joi.date().allow(null),
+        leaseTime: Joi.date().allow(null),
         employees: Joi.array(),
         materials: Joi.array(),
         costumer: Joi.object().required(),

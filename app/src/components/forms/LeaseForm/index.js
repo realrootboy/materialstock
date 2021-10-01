@@ -47,16 +47,27 @@ function LeaseForm(props) {
     let { selected, setSelected, refresh } = props;
     const [selectedLabel, setSelectedLabel] = useState();
 
+    function toDBDate(inputDate) {
+        try {
+            const dt = new Date(inputDate).toISOString();
+            if(dt == 'Invalid Date') return null
+            return dt;
+        } catch (err) {
+            return null;
+        } 
+    }
+
     async function handleNewItem(e) {
         e.preventDefault();
-        await LeaseService.insert({ location, mountDay: new Date(mountDay).toISOString(), unmountDay: new Date(unmountDay).toISOString(), leaseTime: new Date(leaseTime).toDateString(), materials, employees, costumer: { id: costumerId } })
+        
+        await LeaseService.insert({ location, mountDay: toDBDate(mountDay), unmountDay: toDBDate(unmountDay), leaseTime: toDBDate(leaseTime), materials, employees, costumer: { id: costumerId } })
         clearFields();
         refresh();
     }
 
     async function handleEditItem(e) {
         e.preventDefault();
-        await LeaseService.edit(selected, { location, mountDay: new Date(mountDay).toISOString(), unmountDay: new Date(unmountDay).toISOString(), leaseTime: new Date(leaseTime).toDateString(), materials, employees, costumer: { id: costumerId } });
+        await LeaseService.edit(selected, { location, mountDay:  toDBDate(mountDay), unmountDay: toDBDate(unmountDay), leaseTime: toDBDate(leaseTime), materials, employees, costumer: { id: costumerId } });
         clearFields();
         refresh();
     }
@@ -193,7 +204,10 @@ function LeaseForm(props) {
             setEmployeesInForm(employees);
 
             const { costumers } = await CostumerService.list();
-            if (costumers && costumers.length) setCostumerInForm(costumers[0].id);
+            if (costumers && costumers.length){
+                 setCostumerInForm(costumers[0].id);
+                 setCostumerId(costumers[0].id);
+            }
             setCostumersInForm(costumers);
 
         }
