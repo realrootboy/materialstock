@@ -9,23 +9,23 @@ const swaggerOptions = {
   apis: ['./controllers/*'],
   tags:[{
     name: "Costumers",
-    description: "All about costumes",
+    summary: "All about costumes",
   },
   {
     name: "Employees",
-    description: "All about employees",
+    summary: "All about employees",
   },
   {
     name: "Lease object",
-    description: "All about employees",
+    summary: "All about employees",
   },
   {
     name: "Lease",
-    description: "All about employees",
+    summary: "All about employees",
   },
   {
     name: "Material",
-    description: "All about employees",
+    summary: "All about employees",
   }],
 }
 module.exports = swaggerOptions;

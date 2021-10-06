@@ -26,7 +26,7 @@ class EmployeeController {
      * /employee:
      *   get:
      *     tags: [Employees]
-     *     description: Get all employeers.
+     *     summary: Get all employeers.
      *     responses:
      *       200:
      *         description: Success
@@ -43,7 +43,12 @@ class EmployeeController {
      * /employee/{id}:
      *   get:
      *     tags: [Employees]
-     *     description: Get one employee by his id.
+     *     summary: Get one employee by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the costumer
+     *         in: path
+     *         type: integer
      *     responses:
      *       200:
      *         description: Success
@@ -63,18 +68,23 @@ class EmployeeController {
      * /employee:
      *   post:
      *     tags: [Employees]
-     *     description: create a employee.
+     *     summary: Create a employee.
+     *     consumes:
+     *       - application/json
      *     parameters:
-     *     - name: name
-     *       description: name of the employee
-     *       in: formData
-     *       required: true
-     *       type: string
-     *     - name: contact
-     *       description: contact of the employee
-     *       in: formData
-     *       required: true
-     *       type: string 
+     *       - name: employee
+     *         description: The employee to create
+     *         in: body
+     *         schema:
+     *           type: object
+     *           required:
+     *             - name
+     *               contact
+     *           properties:
+     *             name:
+     *               type: string
+     *             contact:
+     *               type: string
      *     responses:
      *       200:
      *         description: Success
@@ -91,21 +101,31 @@ class EmployeeController {
      * /employee/{id}:
      *   put:
      *     tags: [Employees]
-     *     description: update a employee register.
+     *     summary: Update a employee register.
+     *     consumes:
+     *       - application/json
      *     parameters:
-     *     - name: name
-     *       description: new name of the employee
-     *       in: formData
-     *       required: false
-     *       type: string
-     *     - name: contact
-     *       description: new contact of the employee
-     *       in: formData
-     *       required: dalse
-     *       type: String 
+     *       - name: id
+     *         description: Id of the employee
+     *         in: path
+     *         type: integer
+     *       - name: employee
+     *         description: the costumer to update
+     *         in: body
+     *         schema:
+     *           type: object
+     *           properties:
+     *             name:
+     *               type: string
+     *             contact:
+     *               type: string
+     *             location:
+     *               type: string  
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Updated
+     *       401:
+     *         description: Invalid id
      */
     static put = async (req, res) => {
         const { id } = req.params;
@@ -124,10 +144,17 @@ class EmployeeController {
      * /employee/{id}:
      *   delete:
      *     tags: [Employees]
-     *     description: Delete a employee by his id.
+     *     summary: Delete a employee by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the employee
+     *         in: path
+     *         type: integer
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Deleted
+     *       401:
+     *         description: Invalid id
      */
     static delete = async (req, res) => {
         const { id } = req.params;
