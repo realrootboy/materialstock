@@ -21,12 +21,33 @@ const putValidation = {
 };
 
 class CostumerController {
+    /**
+     * @swagger
+     * /costumer:
+     *   get:
+     *     tags: [Costumers]
+     *     description: Get all costumers.
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     static get = async (req, res) => {
         const costumers = await Costumer.findAll();
         const headers = ['id', 'name', 'contact', 'location'];
         return res.status(200).json({ costumers, headers });
     }
 
+    /**
+     * @swagger
+     * 
+     * /costumer/{id}:
+     *   get:
+     *     tags: [Costumers]
+     *     description: Get one costumer by his id.
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     static getOne = async (req, res) => {
         const { id } = req.params;
         const costumer = await Costumer.findOne({
@@ -36,6 +57,41 @@ class CostumerController {
         return res.status(200).json(costumer);
     }
 
+    /**
+     * @swagger
+     * 
+     * /costumer:
+     *   post:
+     *     tags: [Costumers]
+     *     description: create a costumer.
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               name:          
+     *                 type: string
+     *               contact:    
+     *                 type: string
+     *               location:
+     *                 type: string
+     *               required:
+     *                 - name
+     *                 - contact
+     *           examples:
+     *             
+     *             costumer:  # <--- example name
+     *               summary: An example of a dog
+     *               value:
+     *                 name: Teste
+     *                 contact: (27) 99797-9779
+     *                 location: tenda     
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     static post = async (req, res) => {
         const { name, contact, location } = req.body;
         const costumer = await Costumer.create({ name, contact, location });
