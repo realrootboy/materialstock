@@ -29,7 +29,7 @@ class CostumerController {
      *     summary: Get all costumers.
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Success.
      */
     static get = async (req, res) => {
         const costumers = await Costumer.findAll();
@@ -46,14 +46,15 @@ class CostumerController {
      *     summary: Get one costumer by his id.
      *     parameters:
      *       - name: id
-     *         description: Id of the costumer
+     *         description: Id of the costumer.
      *         in: path
      *         type: integer
+     *         required: true
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Success.
      *       401:
-     *         description: Invalid id
+     *         description: Invalid id.
      */
     static getOne = async (req, res) => {
         const { id } = req.params;
@@ -75,8 +76,9 @@ class CostumerController {
      *       - application/json
      *     parameters:
      *       - name: costumer
-     *         description: The costumer to create
+     *         description: The costumer to create.
      *         in: body
+     *         required: true
      *         schema:
      *           type: object
      *           required:
@@ -85,13 +87,16 @@ class CostumerController {
      *           properties:
      *             name:
      *               type: string
+     *               example: joaquim
      *             contact:
      *               type: string
+     *               example: (27) 99696-9797
      *             location:
      *               type: string  
+     *               example: Pico da neblina
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Success.
      */
     static post = async (req, res) => {
         const { name, contact, location } = req.body;
@@ -110,26 +115,31 @@ class CostumerController {
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Id of the costumer
+     *         description: Id of the costumer.
      *         in: path
      *         type: integer
+     *         required: true
      *       - name: costumer
-     *         description: the costumer to update
+     *         description: the costumer to update.
      *         in: body
+     *         required: true
      *         schema:
      *           type: object
      *           properties:
      *             name:
      *               type: string
+     *               example: joaquim
      *             contact:
      *               type: string
+     *               example: (27) 99494-9898
      *             location:
-     *               type: string  
+     *               type: string
+     *               example: Morro do moreno
      *     responses:
      *       200:
-     *         description: Updated
+     *         description: Updated.
      *       401:
-     *         description: Invalid id
+     *         description: Invalid id.
      */
     static put = async (req, res) => {
         const { id } = req.params;
@@ -151,14 +161,15 @@ class CostumerController {
      *     summary: Delete a costumer by his id.
      *     parameters:
      *       - name: id
-     *         description: Id of the costumer
+     *         description: Id of the costumer.
      *         in: path
      *         type: integer
+     *         required: true
      *     responses:
      *       200:
-     *         description: Deleted
+     *         description: Deleted.
      *       401:
-     *         description: Invalid id
+     *         description: Invalid id.
      */
     static delete = async (req, res) => {
         const { id } = req.params;

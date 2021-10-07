@@ -46,12 +46,13 @@ class EmployeeController {
      *     summary: Get one employee by his id.
      *     parameters:
      *       - name: id
-     *         description: Id of the costumer
+     *         description: Id of the costumer.
      *         in: path
      *         type: integer
+     *         required: true
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Success.
      */
     static getOne = async (req, res) => {
         const { id} = req.params;
@@ -73,8 +74,9 @@ class EmployeeController {
      *       - application/json
      *     parameters:
      *       - name: employee
-     *         description: The employee to create
+     *         description: The employee to create.
      *         in: body
+     *         required: true
      *         schema:
      *           type: object
      *           required:
@@ -83,11 +85,13 @@ class EmployeeController {
      *           properties:
      *             name:
      *               type: string
+     *               example: João
      *             contact:
      *               type: string
+     *               example: (29) 99648-5621
      *     responses:
      *       200:
-     *         description: Success
+     *         description: Success.
      */
     static post = async (req, res) => {
         const { name, contact } = req.body;
@@ -106,21 +110,22 @@ class EmployeeController {
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Id of the employee
+     *         description: Id of the employee.
      *         in: path
      *         type: integer
-     *       - name: employee
-     *         description: the costumer to update
+     *         required: true
+     *       - name: employee     
      *         in: body
+     *         required: true
      *         schema:
      *           type: object
      *           properties:
      *             name:
      *               type: string
+     *               example: João
      *             contact:
      *               type: string
-     *             location:
-     *               type: string  
+     *               example: (30) 99846-5126 
      *     responses:
      *       200:
      *         description: Updated
@@ -150,6 +155,7 @@ class EmployeeController {
      *         description: Id of the employee
      *         in: path
      *         type: integer
+     *         required: true
      *     responses:
      *       200:
      *         description: Deleted
