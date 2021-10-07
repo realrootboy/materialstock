@@ -21,6 +21,17 @@ const putValidation = {
 };
 
 class LeaseObjectController {
+    /**
+     * @swagger
+     * 
+     * /leaseobject:
+     *   get:
+     *     tags: [LeaseObjects]
+     *     summary: Get all lease objects.
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static get = async (req, res) => {
         const leaseObjects = await LeaseObject.findAll({
             include: { model: Material, as: 'materials' }
@@ -29,6 +40,23 @@ class LeaseObjectController {
         return res.status(200).json({ leaseObjects, headers });
     }
 
+    /**
+     * @swagger
+     * 
+     * /leaseobject/{id}:
+     *   get:
+     *     tags: [LeaseObjects]
+     *     summary: Get one lease object by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the lease objetct.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static getOne = async (req, res) => {
         const { id } = req.params;
         const leaseObject = await LeaseObject.findOne({
@@ -39,6 +67,39 @@ class LeaseObjectController {
         return res.status(200).json(leaseObject);
     }
 
+    /**
+     * @swagger
+     * 
+     * /leaseobject:
+     *   post:
+     *     tags: [LeaseObjects]
+     *     summary: Create a lease object.
+     *     consumes:
+     *       - application/json
+     *     parameters:
+     *       - name: leaseObject
+     *         description: The lease object to create.
+     *         in: body
+     *         required: true
+     *         schema:
+     *           type: object
+     *           required:
+     *             - name
+     *               description
+     *               materials
+     *           properties:
+     *             name:
+     *               type: string
+     *               example: tendaa
+     *             description:
+     *               type: string
+     *             materials:
+     *               type: object
+     *               example: [{id: 1,name: sample2,quantity: 5},{id: 2,name: sample2,quantity: 2}]
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static post = async (req, res) => {
         const { name, description, materials } = req.body;
         let leaseObject = await LeaseObject.create({ name, description });
@@ -60,6 +121,42 @@ class LeaseObjectController {
         return res.status(200).json({ leaseObject, materials: inserted_materials });
     }
 
+    /**
+     * @swagger
+     * 
+     * /leaseobject/{id}:
+     *   put:
+     *     tags: [LeaseObjects]
+     *     summary: Update a lease object.
+     *     consumes:
+     *       - application/json
+     *     parameters:
+     *       - name: id
+     *         description: Id of the lease object.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *       - name: leaseObject
+     *         description: The lease object to update.
+     *         in: body
+     *         required: true
+     *         schema:
+     *           type: object
+     *           properties:
+     *             name:
+     *               type: string
+     *               example: tenda
+     *             description:
+     *               type: string
+     *             materials:
+     *               type: object
+     *               example: [{id: 2,name: sample2,quantity: 5}]
+     *     responses:
+     *       200:
+     *         description: Success.
+     *       401:
+     *         description: Invalid id.
+     */
     static put = async (req, res) => {
         const { id } = req.params;
         const { name, description, materials } = req.body;
@@ -89,6 +186,25 @@ class LeaseObjectController {
         return res.status(200).json({ Updated: { LeaseObject: update, materials: inserted_materials } });
     }
 
+    /**
+     * @swagger
+     * 
+     * /leaseobject/{id}:
+     *   delete:
+     *     tags: [LeaseObjects]
+     *     summary: Delete a lease object by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the lease object.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Deleted
+     *       401:
+     *         description: Invalid id
+     */
     static delete = async (req, res) => {
         const { id } = req.params;
         const leaseObject = await LeaseObject.findOne({

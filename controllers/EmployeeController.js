@@ -20,13 +20,40 @@ const putValidation = {
 };
 
 class EmployeeController {
-
+    /**
+     * @swagger
+     * 
+     * /employee:
+     *   get:
+     *     tags: [Employees]
+     *     summary: Get all employeers.
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     static get = async (req, res) => {
         const employees = await Employee.findAll();
         const headers = ['id', 'name', 'contact'];
         return res.status(200).json({employees, headers});
     }
 
+    /**
+     * @swagger
+     * 
+     * /employee/{id}:
+     *   get:
+     *     tags: [Employees]
+     *     summary: Get one employee by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the costumer.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static getOne = async (req, res) => {
         const { id} = req.params;
         const employee = await Employee.findOne({
@@ -36,12 +63,75 @@ class EmployeeController {
         return res.status(200).json(employee);
     }
 
+    /**
+     * @swagger
+     * 
+     * /employee:
+     *   post:
+     *     tags: [Employees]
+     *     summary: Create a employee.
+     *     consumes:
+     *       - application/json
+     *     parameters:
+     *       - name: employee
+     *         description: The employee to create.
+     *         in: body
+     *         required: true
+     *         schema:
+     *           type: object
+     *           required:
+     *             - name
+     *               contact
+     *           properties:
+     *             name:
+     *               type: string
+     *               example: João
+     *             contact:
+     *               type: string
+     *               example: (29) 99648-5621
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static post = async (req, res) => {
         const { name, contact } = req.body;
         const employee = await Employee.create({ name, contact });
         return res.status(200).json(employee);
     }
 
+    /**
+     * @swagger
+     * 
+     * /employee/{id}:
+     *   put:
+     *     tags: [Employees]
+     *     summary: Update a employee register.
+     *     consumes:
+     *       - application/json
+     *     parameters:
+     *       - name: id
+     *         description: Id of the employee.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *       - name: employee     
+     *         in: body
+     *         required: true
+     *         schema:
+     *           type: object
+     *           properties:
+     *             name:
+     *               type: string
+     *               example: João
+     *             contact:
+     *               type: string
+     *               example: (30) 99846-5126 
+     *     responses:
+     *       200:
+     *         description: Updated
+     *       401:
+     *         description: Invalid id
+     */
     static put = async (req, res) => {
         const { id } = req.params;
         const { name, contact } = req.body;
@@ -53,6 +143,25 @@ class EmployeeController {
         return res.status(200).json(update);
     }
 
+    /**
+     * @swagger
+     * 
+     * /employee/{id}:
+     *   delete:
+     *     tags: [Employees]
+     *     summary: Delete a employee by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the employee
+     *         in: path
+     *         type: integer
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Deleted
+     *       401:
+     *         description: Invalid id
+     */
     static delete = async (req, res) => {
         const { id } = req.params;
         const employee = await Employee.findOne({

@@ -38,6 +38,17 @@ const putValidation = {
 };
 
 class LeaseController {
+    /**
+     * @swagger
+     * 
+     * /lease:
+     *   get:
+     *     tags: [Leases]
+     *     summary: Get all leases.
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static get = async (req, res) => {
         const leases = await Lease.findAll({
 
@@ -52,6 +63,23 @@ class LeaseController {
         return res.status(200).json({ leases, headers });
     }
 
+    /**
+     * @swagger
+     * 
+     * /lease/{id}:
+     *   get:
+     *     tags: [Leases]
+     *     summary: Get one lease by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the lease.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Success.
+     */
     static getOne = async (req, res) => {
         const { id } = req.params;
         const lease = await Lease.findOne({
@@ -66,6 +94,55 @@ class LeaseController {
         return res.status(200).json(lease);
     }
 
+    /**
+     * @swagger
+     * 
+     * /lease:
+     *   post:
+     *     tags: [Leases]
+     *     summary: Create a lease.
+     *     consumes:
+     *       - application/json
+     *     parameters:
+     *       - name: lease
+     *         description: The lease to create.
+     *         in: body
+     *         required: true
+     *         schema:
+     *           type: object
+     *           required:
+     *             - location
+     *               mountDay
+     *               unmountDay
+     *               leaseTime
+     *               costumer
+     *               materials
+     *           properties:
+     *             location:
+     *               type: string
+     *               example: Rua Ali Perto, num 55 - Vitória ES
+     *             mountDay:
+     *               type: string
+     *               example: 1-25-1999 00:00:00
+     *             unmountDay:
+     *               type: string
+     *               example: 01-28-1999 15:00:00
+     *             leaseTime:
+     *               type: string
+     *               example: 01-25-1999 15:00:00
+     *             employees:
+     *               type: object
+     *               example: [{id: 1,action: motorista},{id: 2}]
+     *             costumer:
+     *               type: object
+     *               example: { "id": 1 }
+     *             materials:
+     *               type: object
+     *               example: [{id: 1,quantity: 20},{id: 2, quantity: 15}]
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     static post = async (req, res) => {
         const { location, mountDay, unmountDay, leaseTime, employees, costumer, materials } = req.body;
         let lease = await Lease.create({ location, mountDay, unmountDay, leaseTime });
@@ -98,6 +175,53 @@ class LeaseController {
         return res.status(200).json({ lease, employees, costumer, materials: inserted_materials });
     }
 
+    /**
+     * @swagger
+     * 
+     * /lease/{id}:
+     *   put:
+     *     tags: [Leases]
+     *     summary: Update a lease.
+     *     consumes:
+     *       - application/json
+     *     parameters:
+     *       - name: id
+     *         description: Id of the lease.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *       - name: lease
+     *         description: The lease to create.
+     *         in: body
+     *         required: true
+     *         schema:
+     *           type: object
+     *           properties:
+     *             location:
+     *               type: string
+     *               exampĺe: Rua Ali Perto, num 60 - Vitória ES
+     *             mountDay:
+     *               type: string
+     *               example: 1-26-1999 00:00:00
+     *             unmountDay:
+     *               type: string
+     *               example: 01-29-1999 15:00:00
+     *             leaseTime:
+     *               type: string
+     *               example: 01-26-1999 15:00:00
+     *             employees:
+     *               type: object
+     *               example: [{id: 1,action: conferente},{id: 2}]
+     *             costumer:
+     *               type: object
+     *               example: {id: 2 }
+     *             materials:
+     *               type: object
+     *               example: [{id: 2,quantity: 30},{id: 4}]
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     static put = async (req, res) => {
         const { id } = req.params;
         const { location, mountDay, unmountDay, leaseTime, employees, costumer, materials } = req.body;
@@ -137,6 +261,25 @@ class LeaseController {
         return res.status(200).json({ Updated: { Lease: update, employees, costumer, materials: inserted_materials } });
     }
 
+    /**
+     * @swagger
+     * 
+     * /lease/{id}:
+     *   delete:
+     *     tags: [Leases]
+     *     summary: Delete a lease by his id.
+     *     parameters:
+     *       - name: id
+     *         description: Id of the lease.
+     *         in: path
+     *         type: integer
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Deleted
+     *       401:
+     *         description: Invalid id
+     */
     static delete = async (req, res) => {
         const { id } = req.params;
         const leaseObject = await Lease.findOne({
