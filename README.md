@@ -45,11 +45,11 @@ npm run electron
 
 ## Documentação
 
-api docs...
+A documentação foi criada utilizando o Swagger. Para acessar a documentação basta executar o projeto e acessar a URL http://localhost:8080/api-docs.
 
 ```sh
-npm i
 npm start
 ```
 
-acessar url tal...
+
+
